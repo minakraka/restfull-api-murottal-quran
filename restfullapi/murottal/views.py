@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer
+
+from .models import Surat
+from .serializers import UserSerializer, GroupSerializer, SuratSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,4 +21,13 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class SuratViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Surat.objects.all()
+    serializer_class = SuratSerializer
     permission_classes = [permissions.IsAuthenticated]
