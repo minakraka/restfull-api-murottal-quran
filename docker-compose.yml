@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7.31
+    environment:
+      MYSQL_DATABASE: 'murottal'
+      MYSQL_USER: 'murottal'
+      MYSQL_PASSWORD: 'murottal'
+      MYSQL_ROOT_PASSWORD: 'murottal'
+    ports:
+      - '0.0.0.0:3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ~/data/mysql/murottal:/var/lib/mysql
+  web:
+    build:
+      context: .
+      dockerfile: dockerfile/app.Dockerfile
+    command: python restfullapi/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
